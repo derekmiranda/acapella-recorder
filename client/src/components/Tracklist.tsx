@@ -1,15 +1,16 @@
 import Track from "./Track";
 import TrackPlaceholder from "./TrackPlaceholder";
 
-function Tracklist() {
-  // keep track of loop blob URLs
-  const trackURLs: string[] = [];
+export interface TracklistProps {
+  tracks: string[];
+}
 
+function Tracklist({ tracks }: TracklistProps) {
   return (
     <div className="tracklist">
       <div className="tracklist__content">
-        {trackURLs.length ? (
-          trackURLs.map((trackURL) => <Track url={trackURL} />)
+        {tracks.length ? (
+          tracks.map((track, i) => <Track url={track} key={i} />)
         ) : (
           <TrackPlaceholder />
         )}

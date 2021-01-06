@@ -3,7 +3,11 @@ export interface TrackProps {
 }
 
 function Track({ url }: TrackProps) {
-  return <div className="track">{url}</div>;
+  return (
+    <div className="track">
+      <audio controls src={url} />
+    </div>
+  );
 }
 
 export default Track;

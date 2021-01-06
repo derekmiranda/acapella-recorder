@@ -3,10 +3,13 @@ import ReactDOM from "react-dom";
 import "./styles/styles.scss";
 import App from "./components/App";
 import reportWebVitals from "./reportWebVitals";
+import LoopRecorder from "./lib/LoopRecorder";
+
+const recorder = new LoopRecorder();
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <App recorder={recorder} />
   </React.StrictMode>,
   document.getElementById("root")
 );

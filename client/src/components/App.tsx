@@ -1,20 +1,45 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import LoopRecorder from "../lib/LoopRecorder";
 import Tracklist from "./Tracklist";
 
-function App() {
+export interface AppProps {
+  recorder: LoopRecorder;
+}
+
+function App({ recorder }: AppProps) {
   const [recordingAvailable, updateRecordingAvailable] = useState(true);
   const [recording, updateRecording] = useState(false);
+  const [initializingRecord, updateInitializingRecord] = useState(false);
+  const [trackURLs, updateTrackURLs]: [string[], Function] = useState([]);
 
-  const toggleRecording = () => {
-    updateRecording(!recording);
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    updateRecordingAvailable(false);
+  }
+
+  const startRecording = () => {
+    updateInitializingRecord(true);
+    recorder.startRecording().then(() => {
+      updateInitializingRecord(false);
+      updateRecording(true);
+    });
   };
 
-  // check if recording is available
-  useEffect(() => {
-    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-      updateRecordingAvailable(false);
-    }
-  }, []);
+  const stopRecording = () => {
+    updateRecording(false);
+    recorder.flushRecording().then((url) => {
+      updateTrackURLs(trackURLs.concat(url));
+    });
+  };
+
+  let recordBtnText = "Record",
+    recordBtnClass = "record__btn";
+
+  if (initializingRecord) {
+    recordBtnText = "Initializing...";
+  } else if (recording) {
+    recordBtnText = "Recording...";
+    recordBtnClass = "record__btn record__btn--recording";
+  }
 
   return (
     <div className="app">
@@ -23,16 +48,15 @@ function App() {
         <>
           <div className="record">
             <button
-              className={
-                "record__btn" + (recording ? " record__btn--recording" : "")
-              }
-              onClick={toggleRecording}
+              className={recordBtnClass}
+              onClick={recording ? stopRecording : startRecording}
+              disabled={initializingRecord}
             >
-              {recording ? "Recording..." : "Record"}
+              {recordBtnText}
             </button>
             <p className="record__description">Record a first track!</p>
           </div>
-          <Tracklist />
+          <Tracklist tracks={trackURLs} />
         </>
       ) : (
         <p className="error-message">
