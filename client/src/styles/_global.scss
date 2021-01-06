@@ -10,9 +10,9 @@ h1 {
 }
 
 a {
-  color: $secondary;
+  color: $link;
 }
 
-a:active {
-  color: darken($secondary, 10);
+a:visited {
+  color: $link-visited;
 }
