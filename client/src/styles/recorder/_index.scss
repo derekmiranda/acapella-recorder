@@ -1,8 +1,10 @@
 .app {
+  width: 800px;
   border: 1px solid $main;
   border-radius: 10px;
-  margin: 20px;
+  margin: 40px auto;
   text-align: center;
+  overflow: hidden;
 
   &__header {
     margin: $base-text-margin;
@@ -15,6 +17,10 @@
 
   &__btn {
     display: inline;
+
+    &--recording {
+      background-color: $record;
+    }
   }
 
   &__description {

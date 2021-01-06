@@ -1,0 +1,19 @@
+.tracklist {
+  background-color: $main-dark;
+  height: 600px;
+  padding: $base-margin;
+}
+
+.track,
+.track-placeholder {
+  background-color: $white;
+  margin: auto;
+  margin-bottom: $base-margin;
+  padding: $base-margin;
+  width: 400px;
+  border-radius: 5px;
+}
+
+.track-placeholder {
+  opacity: 70%;
+}
