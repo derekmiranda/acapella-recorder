@@ -1,0 +1,16 @@
+@import "./vars.scss";
+
+@import "./vendor/reset.css";
+
+@import "./recorder/_index.scss";
+
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap");
+
+body {
+  font-family: "Josefin Sans", sans-serif;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: bold;
+}

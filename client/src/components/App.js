@@ -1,12 +1,10 @@
-import "./App.scss";
-
 function App() {
   return (
     <div className="app">
       <h1 className="app__header">Acapella Recorder</h1>
-      <div className="recorder">
-        <button>Record</button>
-        <p className="recorder__description">Record a first track!</p>
+      <div className="record">
+        <button className="record__btn">Record</button>
+        <p className="record__description">Record a first track!</p>
       </div>
     </div>
   );
