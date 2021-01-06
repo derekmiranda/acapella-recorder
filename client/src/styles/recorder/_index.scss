@@ -2,16 +2,16 @@
   border: 1px solid $main;
   border-radius: 10px;
   margin: 20px;
+  text-align: center;
 
   &__header {
-    margin: 1rem;
-    text-align: center;
+    margin: $base-text-margin;
   }
 }
 
 .record {
   background-color: $main;
-  padding: 0.5rem;
+  padding: $base-text-margin;
 
   &__btn {
     display: inline;
@@ -19,6 +19,6 @@
 
   &__description {
     display: inline;
-    margin-left: 0.5rem;
+    margin-left: $base-text-margin;
   }
 }
