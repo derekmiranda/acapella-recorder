@@ -1,12 +1,16 @@
 $record: tomato;
 $main: #47ffb1;
 $main-dark: #3d8063;
-$link: #603bff;
-$link-visited: #554a80;
+$sec: #35e8d0;
+$tert: #3be4ff;
+$purple: #603bff;
 $text: black;
 $text-sec: grey;
 $white: white;
 $yellow: #ffe92e;
+
+$link: $purple;
+$link-visited: #554a80;
 
 $base-text-margin: 1rem;
 $base-margin: 20px;

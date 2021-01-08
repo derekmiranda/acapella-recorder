@@ -24,7 +24,23 @@
   }
 
   &__description {
+    margin-left: $base-text-margin;
+  }
+}
+
+.playback {
+  background-color: $sec;
+  padding: $base-text-margin;
+
+  &__btn {
     display: inline;
+
+    &--playing {
+      background-color: $record;
+    }
+  }
+
+  &__description {
     margin-left: $base-text-margin;
   }
 }
