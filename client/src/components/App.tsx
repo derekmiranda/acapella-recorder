@@ -56,7 +56,10 @@ function App({ recorder }: AppProps) {
             >
               {recordBtnText}
             </button>
-            <p className="record__description">Record a first track!</p>
+            <span className="record__description">Record a first track!</span>
+          </div>
+          <div className="playback">
+            <button>Play All</button>
           </div>
           <Tracklist tracks={tracks} />
         </>
