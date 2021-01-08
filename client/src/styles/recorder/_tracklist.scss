@@ -10,6 +10,14 @@
   box-sizing: border-box;
 }
 
+.tracklist::-webkit-scrollbar {
+  background-color: $sec;
+}
+
+.tracklist::-webkit-scrollbar-thumb {
+  background-color: $main;
+}
+
 .track,
 .track-placeholder {
   background-color: $white;
