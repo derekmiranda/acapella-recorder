@@ -22,10 +22,18 @@ function Trackbar({ track }: TrackProps) {
     } as TrackAction);
   };
 
+  const handleRemove = () => {
+    dispatch({
+      type: RecorderActionType.removeTrack,
+      id,
+    } as TrackAction);
+  };
+
   return (
     <div className="track">
       <input value={name} onChange={handleChange} />
       <audio controls src={url} />
+      <button onClick={handleRemove}>Delete</button>
     </div>
   );
 }

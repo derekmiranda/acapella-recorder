@@ -79,6 +79,15 @@ function tracksReducer(
         }),
       };
     }
+    case RecorderActionType.removeTrack: {
+      const id = action.id as number;
+      return {
+        ...state,
+        tracks: state.tracks.filter((track) => {
+          return track.id !== id;
+        }),
+      };
+    }
   }
   return state;
 }
