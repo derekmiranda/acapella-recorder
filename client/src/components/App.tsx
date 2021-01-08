@@ -1,5 +1,11 @@
-import { useState } from "react";
 import LoopRecorder from "../lib/LoopRecorder";
+import {
+  RecorderActionType,
+  startRecording,
+  stopRecording,
+  useRecorderDispatch,
+  useRecorderState,
+} from "./RecorderStateProvider";
 import Tracklist from "./Tracklist";
 
 export interface AppProps {
@@ -7,28 +13,24 @@ export interface AppProps {
 }
 
 function App({ recorder }: AppProps) {
-  const [recordingAvailable, updateRecordingAvailable] = useState(true);
-  const [recording, updateRecording] = useState(false);
-  const [initializingRecord, updateInitializingRecord] = useState(false);
-  const [trackURLs, updateTrackURLs]: [string[], Function] = useState([]);
+  const {
+    recordingAvailable,
+    isRecording,
+    initializingRecord,
+    tracks,
+  } = useRecorderState();
+  const dispatch = useRecorderDispatch();
 
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-    updateRecordingAvailable(false);
+    dispatch({ type: RecorderActionType.recordingUnavailable });
   }
 
-  const startRecording = () => {
-    updateInitializingRecord(true);
-    recorder.startRecording().then(() => {
-      updateInitializingRecord(false);
-      updateRecording(true);
-    });
+  const onStartRecord = () => {
+    startRecording(dispatch, recorder);
   };
 
-  const stopRecording = () => {
-    updateRecording(false);
-    recorder.flushRecording().then((url) => {
-      updateTrackURLs(trackURLs.concat(url));
-    });
+  const onStopRecord = () => {
+    stopRecording(dispatch, recorder);
   };
 
   let recordBtnText = "Record",
@@ -36,8 +38,8 @@ function App({ recorder }: AppProps) {
 
   if (initializingRecord) {
     recordBtnText = "Initializing...";
-  } else if (recording) {
-    recordBtnText = "Recording...";
+  } else if (isRecording) {
+    recordBtnText = "Stop";
     recordBtnClass = "record__btn record__btn--recording";
   }
 
@@ -49,18 +51,18 @@ function App({ recorder }: AppProps) {
           <div className="record">
             <button
               className={recordBtnClass}
-              onClick={recording ? stopRecording : startRecording}
+              onClick={isRecording ? onStopRecord : onStartRecord}
               disabled={initializingRecord}
             >
               {recordBtnText}
             </button>
             <p className="record__description">Record a first track!</p>
           </div>
-          <Tracklist tracks={trackURLs} />
+          <Tracklist tracks={tracks} />
         </>
       ) : (
         <p className="error-message">
-          Audio recording is not available with this browser. Please use a
+          Audio isRecording is not available with this browser. Please use a
           compatible browser listed{" "}
           <a
             target="_blank"

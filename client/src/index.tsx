@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./styles/styles.scss";
 import App from "./components/App";
+import { RecorderProvider } from "./components/RecorderStateProvider";
 import reportWebVitals from "./reportWebVitals";
 import LoopRecorder from "./lib/LoopRecorder";
 
@@ -9,7 +10,9 @@ const recorder = new LoopRecorder();
 
 ReactDOM.render(
   <React.StrictMode>
-    <App recorder={recorder} />
+    <RecorderProvider>
+      <App recorder={recorder} />
+    </RecorderProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

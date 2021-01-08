@@ -1,8 +1,9 @@
-import Track from "./Track";
+import { Track } from "./RecorderStateProvider";
+import Trackbar from "./Trackbar";
 import TrackPlaceholder from "./TrackPlaceholder";
 
 export interface TracklistProps {
-  tracks: string[];
+  tracks: Track[];
 }
 
 function Tracklist({ tracks }: TracklistProps) {
@@ -10,7 +11,7 @@ function Tracklist({ tracks }: TracklistProps) {
     <div className="tracklist">
       <div className="tracklist__content">
         {tracks.length ? (
-          tracks.map((track, i) => <Track url={track} key={i} />)
+          tracks.map((track, i) => <Trackbar track={track} key={i} />)
         ) : (
           <TrackPlaceholder />
         )}
