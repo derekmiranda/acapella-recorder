@@ -8,8 +8,8 @@ export interface TracklistProps {
 
 function Tracklist({ tracks }: TracklistProps) {
   return (
-    <div className="tracklist">
-      <div className="tracklist__content">
+    <div className="tracklist-container">
+      <div className="tracklist">
         {tracks.length ? (
           tracks.map((track, i) => <Trackbar track={track} key={i} />)
         ) : (

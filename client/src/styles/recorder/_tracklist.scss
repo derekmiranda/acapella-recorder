@@ -1,7 +1,13 @@
-.tracklist {
+.tracklist-container {
   background-color: $tert;
-  height: 600px;
-  padding: $base-margin;
+  height: 500px;
+}
+
+.tracklist {
+  overflow-y: scroll;
+  padding-top: $base-margin;
+  height: 100%;
+  box-sizing: border-box;
 }
 
 .track,
