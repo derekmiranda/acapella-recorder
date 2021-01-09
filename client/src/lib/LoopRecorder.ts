@@ -31,7 +31,7 @@ class LoopRecorder {
   }
 
   flushRecording(): Promise<string> {
-    if (!this._recorder) return Promise.resolve("");
+    if (!this._recorder) throw new Error("No stream to flush");
 
     const recorder: MediaRecorder = this._recorder;
 
