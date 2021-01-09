@@ -1,6 +1,6 @@
 import React, { Dispatch, ReactNode, Reducer } from "react";
 import LoopRecorder from "../lib/LoopRecorder";
-import { rootRecoderReducer } from "./recorderReducers";
+import { rootRecoderReducer } from "../components/recorderReducers";
 
 const RecorderStateContext = React.createContext<RecorderState | undefined>(
   undefined

@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./styles/styles.scss";
 import App from "./components/App";
-import { RecorderProvider } from "./components/RecorderStateProvider";
+import { RecorderProvider } from "./providers/RecorderStateProvider";
 import reportWebVitals from "./reportWebVitals";
 import LoopRecorder from "./lib/LoopRecorder";
 

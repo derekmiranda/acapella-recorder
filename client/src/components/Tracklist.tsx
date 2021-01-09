@@ -1,4 +1,4 @@
-import { Track } from "./RecorderStateProvider";
+import { Track } from "../providers/RecorderStateProvider";
 import Trackbar from "./Trackbar";
 import TrackPlaceholder from "./TrackPlaceholder";
 
