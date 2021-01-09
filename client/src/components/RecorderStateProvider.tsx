@@ -37,8 +37,7 @@ export enum RecorderActionType {
   removeTrack,
   renameTrack,
   // playback
-  playAll,
-  playOne,
+  playback,
   pause,
   stop,
 }
@@ -90,7 +89,22 @@ function RecorderProvider({ children }: { children: ReactNode }) {
     recordingAvailable: true,
     isRecording: false,
     initializingRecord: false,
-    tracks: [],
+    tracks: [
+      {
+        name: "Sample 1",
+        url: "./assets/sample-1.m4a",
+        id: 99,
+        active: true,
+        volume: 1,
+      },
+      {
+        name: "Sample 2",
+        url: "./assets/sample-2.m4a",
+        id: 99,
+        active: true,
+        volume: 1,
+      },
+    ],
     shouldLoop: true,
   });
   return (
