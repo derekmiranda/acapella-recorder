@@ -4,7 +4,7 @@ import {
   RecorderAction,
   RecorderActionType,
   TrackAction,
-} from "../providers/RecorderStateProvider";
+} from "../providers/RecorderProvider";
 
 function recordingReducer(
   state: RecorderState,

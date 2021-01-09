@@ -36,10 +36,6 @@ export enum RecorderActionType {
   addTrack,
   removeTrack,
   renameTrack,
-  // playback
-  playback,
-  pause,
-  stop,
 }
 
 export interface TrackAction extends RecorderAction {

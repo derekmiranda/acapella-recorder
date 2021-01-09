@@ -4,7 +4,7 @@ import {
   Track,
   TrackAction,
   useRecorderDispatch,
-} from "../providers/RecorderStateProvider";
+} from "../providers/RecorderProvider";
 
 export interface TrackProps {
   track: Track;

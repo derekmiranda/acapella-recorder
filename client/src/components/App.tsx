@@ -5,7 +5,7 @@ import {
   stopRecording,
   useRecorderDispatch,
   useRecorderState,
-} from "../providers/RecorderStateProvider";
+} from "../providers/RecorderProvider";
 import Tracklist from "./Tracklist";
 
 export interface AppProps {
