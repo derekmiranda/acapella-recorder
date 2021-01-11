@@ -3,12 +3,15 @@ import ReactDOM from "react-dom";
 import "./styles/styles.scss";
 import App from "./components/App";
 import { RecorderProvider } from "./providers/RecorderProvider";
+import { PlaybackProvider } from "./providers/PlaybackProvider";
 import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
   <React.StrictMode>
     <RecorderProvider>
-      <App />
+      <PlaybackProvider>
+        <App />
+      </PlaybackProvider>
     </RecorderProvider>
   </React.StrictMode>,
   document.getElementById("root")

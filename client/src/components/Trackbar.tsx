@@ -1,4 +1,5 @@
 import { ChangeEvent, RefObject, useEffect, useRef, useState } from "react";
+import { usePlaybackManager } from "../providers/PlaybackProvider";
 import {
   RecorderActionType,
   Track,
@@ -12,6 +13,8 @@ export interface TrackProps {
 
 function Trackbar({ track }: TrackProps) {
   const dispatch = useRecorderDispatch();
+  const playbackManager = usePlaybackManager();
+
   const { name, url, id } = track;
   const [playing, updatePlaying] = useState(false);
   const audioRef: RefObject<HTMLAudioElement> = useRef(null);
@@ -24,15 +27,24 @@ function Trackbar({ track }: TrackProps) {
     if (audioRef.current) {
       const audioEl = audioRef.current;
 
-      audioEl.addEventListener("ended", () => {
+      const onEnded = () => {
         updatePlaying(false);
-      });
+      };
+      audioEl.addEventListener("ended", onEnded);
+
+      playbackManager.addAudio(audioEl);
+    }
+  }, [playbackManager]);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      const audioEl = audioRef.current;
 
       if (playing) {
         audioEl.play();
       }
     }
-  });
+  }, [playing]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     dispatch({

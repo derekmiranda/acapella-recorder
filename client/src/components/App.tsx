@@ -1,3 +1,4 @@
+import { usePlaybackManager } from "../providers/PlaybackProvider";
 import {
   RecorderActionType,
   startRecording,
@@ -17,6 +18,7 @@ function App() {
   } = useRecorderState();
   const dispatch = useRecorderDispatch();
   const recorder = useRecorder();
+  const playbackManager = usePlaybackManager();
 
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
     dispatch({ type: RecorderActionType.recordingUnavailable });
@@ -56,7 +58,7 @@ function App() {
             <span className="record__description">Record a first track!</span>
           </div>
           <div className="playback">
-            <button>Play All</button>
+            <button onClick={() => playbackManager.play()}>Play All</button>
           </div>
           <Tracklist tracks={tracks} />
         </>
