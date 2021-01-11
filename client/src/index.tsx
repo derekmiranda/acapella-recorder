@@ -4,14 +4,11 @@ import "./styles/styles.scss";
 import App from "./components/App";
 import { RecorderProvider } from "./providers/RecorderProvider";
 import reportWebVitals from "./reportWebVitals";
-import LoopRecorder from "./lib/LoopRecorder";
-
-const recorder = new LoopRecorder();
 
 ReactDOM.render(
   <React.StrictMode>
     <RecorderProvider>
-      <App recorder={recorder} />
+      <App />
     </RecorderProvider>
   </React.StrictMode>,
   document.getElementById("root")

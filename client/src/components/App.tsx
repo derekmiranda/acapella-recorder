@@ -1,18 +1,14 @@
-import LoopRecorder from "../lib/LoopRecorder";
 import {
   RecorderActionType,
   startRecording,
   stopRecording,
   useRecorderDispatch,
   useRecorderState,
+  useRecorder,
 } from "../providers/RecorderProvider";
 import Tracklist from "./Tracklist";
 
-export interface AppProps {
-  recorder: LoopRecorder;
-}
-
-function App({ recorder }: AppProps) {
+function App() {
   const {
     recordingAvailable,
     isRecording,
@@ -20,6 +16,7 @@ function App({ recorder }: AppProps) {
     tracks,
   } = useRecorderState();
   const dispatch = useRecorderDispatch();
+  const recorder = useRecorder();
 
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
     dispatch({ type: RecorderActionType.recordingUnavailable });

@@ -8,6 +8,9 @@ const RecorderStateContext = React.createContext<RecorderState | undefined>(
 const RecorderDispatchContext = React.createContext<
   Dispatch<RecorderAction> | undefined
 >(undefined);
+const RecorderContext = React.createContext<LoopRecorder | undefined>(
+  undefined
+);
 
 export interface RecorderState {
   recordingAvailable: boolean;
@@ -103,10 +106,14 @@ function RecorderProvider({ children }: { children: ReactNode }) {
     ],
     shouldLoop: true,
   });
+  const reducerRef = React.useRef(new LoopRecorder());
+
   return (
     <RecorderStateContext.Provider value={state}>
       <RecorderDispatchContext.Provider value={dispatch}>
-        {children}
+        <RecorderContext.Provider value={reducerRef.current}>
+          {children}
+        </RecorderContext.Provider>
       </RecorderDispatchContext.Provider>
     </RecorderStateContext.Provider>
   );
@@ -130,10 +137,18 @@ function useRecorderDispatch() {
   return context;
 }
 
+function useRecorder() {
+  const context = React.useContext(RecorderContext);
+  if (context === undefined) {
+    throw new Error("useRecorder must be used within a RecorderProvider");
+  }
+  return context;
+}
 export {
   RecorderProvider,
   useRecorderState,
   useRecorderDispatch,
+  useRecorder,
   startRecording,
   stopRecording,
 };
