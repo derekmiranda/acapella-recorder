@@ -13,6 +13,7 @@ import {
   useRecorderState,
   useRecorder,
 } from "../providers/RecorderProvider";
+import Metronome from "./Metronome";
 import Tracklist from "./Tracklist";
 
 function App() {
@@ -98,6 +99,7 @@ function App() {
             <span className="record__description">Record a first track!</span>
           </div>
           <div className="playback">
+            <Metronome active={false} tempo={120} />
             <button onClick={playing ? onPause : onPlay}>
               {playing ? "Pause All" : "Play All"}
             </button>
