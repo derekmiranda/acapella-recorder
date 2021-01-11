@@ -87,6 +87,12 @@ function App() {
     });
   };
 
+  const onToggleRecordPlayback = () => {
+    recorderDispatch({
+      type: RecorderActionType.togglePlayWhileRecording,
+    });
+  };
+
   // playback handlers
   const onPlay = () => {
     playbackDispatch({
@@ -152,8 +158,21 @@ function App() {
                 {testingMetronome ? "Stop Test" : "Test"}
               </button>
             </div>
+            <div className="record__option-container">
+              <input
+                type="checkbox"
+                id="record__toggle-record-playback"
+                className="record__toggle-record-playback"
+                checked={playWhileRecording}
+                onChange={onToggleRecordPlayback}
+              ></input>
+              <label htmlFor="record__toggle-record-playback">
+                {" "}
+                Enable playback while recording
+              </label>
+            </div>
             <Metronome
-              active={(isRecording || testingMetronome) && useMetronome}
+              active={testingMetronome || (isRecording && useMetronome)}
               tempo={tempo}
             />
           </div>

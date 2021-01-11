@@ -115,7 +115,7 @@ function settingsReducer(
     case RecorderActionType.togglePlayWhileRecording: {
       return {
         ...state,
-        testingMetronome: !state.playWhileRecording,
+        playWhileRecording: !state.playWhileRecording,
       };
     }
     case RecorderActionType.updateMetronomeTempo: {
