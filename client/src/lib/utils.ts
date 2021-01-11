@@ -22,3 +22,12 @@ export function createIdGetter(): () => number {
     return id;
   };
 }
+
+// abstracted setInterval, in case I want to reimplement w/ RAF
+export function setInterval(
+  handler: TimerHandler,
+  timeout?: number,
+  ...args: unknown[]
+): number {
+  return window.setInterval(handler, timeout, ...args);
+}

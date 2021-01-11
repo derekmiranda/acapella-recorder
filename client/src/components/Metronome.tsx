@@ -1,4 +1,5 @@
 import { RefObject, useEffect, useRef } from "react";
+import { setInterval } from "../lib/utils";
 
 export interface MetronomeProps {
   active: boolean;
@@ -18,7 +19,7 @@ function Metronome({ active, tempo }: MetronomeProps) {
     if (active && audioRef.current) {
       const audioEl = audioRef.current;
       play(audioEl);
-      intervalId = window.setInterval(() => {
+      intervalId = setInterval(() => {
         play(audioEl);
       }, 1000 / (tempo / 60));
     }
