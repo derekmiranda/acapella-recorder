@@ -13,14 +13,12 @@ const PlaybackManagerContext = React.createContext<PlaybackManager | undefined>(
 
 export interface PlaybackState {
   playing: boolean;
-  paused: boolean;
-  stopped: boolean;
   trackTime: number;
+  playheadTime: number;
 }
 
 export enum PlaybackActionType {
-  playAll,
-  playOne,
+  play,
   pause,
   stop,
 }
@@ -34,8 +32,26 @@ function rootReducer(
   action: PlaybackAction
 ): PlaybackState {
   switch (action.type) {
+    case PlaybackActionType.play: {
+      return {
+        ...state,
+        playing: true,
+      };
+    }
+    case PlaybackActionType.pause: {
+      return {
+        ...state,
+        playing: false,
+      };
+    }
+    case PlaybackActionType.stop: {
+      return {
+        ...state,
+        playing: false,
+        trackTime: state.playheadTime,
+      };
+    }
   }
-  return state;
 }
 
 function PlaybackProvider({ children }: { children: ReactNode }) {
@@ -43,9 +59,8 @@ function PlaybackProvider({ children }: { children: ReactNode }) {
     Reducer<PlaybackState, PlaybackAction>
   >(rootReducer, {
     playing: false,
-    paused: false,
-    stopped: true,
     trackTime: 0,
+    playheadTime: 0,
   });
   const playbackManager = React.useRef(new PlaybackManager());
 

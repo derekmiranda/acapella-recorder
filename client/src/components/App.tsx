@@ -1,4 +1,10 @@
-import { usePlaybackManager } from "../providers/PlaybackProvider";
+import { useEffect } from "react";
+import {
+  PlaybackActionType,
+  usePlaybackDispatch,
+  usePlaybackManager,
+  usePlaybackState,
+} from "../providers/PlaybackProvider";
 import {
   RecorderActionType,
   startRecording,
@@ -16,20 +22,43 @@ function App() {
     initializingRecord,
     tracks,
   } = useRecorderState();
-  const dispatch = useRecorderDispatch();
+  const recorderDispatch = useRecorderDispatch();
   const recorder = useRecorder();
+
+  const { playing } = usePlaybackState();
+  const playbackDispatch = usePlaybackDispatch();
   const playbackManager = usePlaybackManager();
 
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-    dispatch({ type: RecorderActionType.recordingUnavailable });
+    recorderDispatch({ type: RecorderActionType.recordingUnavailable });
   }
 
+  useEffect(() => {
+    if (playing) {
+      playbackManager.play();
+    } else {
+      playbackManager.pause();
+    }
+  }, [playing, playbackManager]);
+
   const onStartRecord = () => {
-    startRecording(dispatch, recorder);
+    startRecording(recorderDispatch, recorder);
   };
 
   const onStopRecord = () => {
-    stopRecording(dispatch, recorder);
+    stopRecording(recorderDispatch, recorder);
+  };
+
+  const onPlay = () => {
+    playbackDispatch({
+      type: PlaybackActionType.play,
+    });
+  };
+
+  const onPause = () => {
+    playbackDispatch({
+      type: PlaybackActionType.pause,
+    });
   };
 
   let recordBtnText = "Record",
@@ -58,7 +87,9 @@ function App() {
             <span className="record__description">Record a first track!</span>
           </div>
           <div className="playback">
-            <button onClick={() => playbackManager.play()}>Play All</button>
+            <button onClick={playing ? onPause : onPlay}>
+              {playing ? "Pause All" : "Play All"}
+            </button>
           </div>
           <Tracklist tracks={tracks} />
         </>

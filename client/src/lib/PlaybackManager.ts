@@ -12,6 +12,12 @@ class PlaybackManager {
     }
   }
 
+  pause() {
+    for (let audioEl of Object.values(this.audioEls)) {
+      audioEl.pause();
+    }
+  }
+
   // seek to audio element time, in terms of seconds
   seek(time: number) {
     for (let audioEl of Object.values(this.audioEls)) {
