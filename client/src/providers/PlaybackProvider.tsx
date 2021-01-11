@@ -15,6 +15,7 @@ export interface PlaybackState {
   playing: boolean;
   trackTime: number;
   playheadTime: number;
+  looping: boolean;
 }
 
 export enum PlaybackActionType {
@@ -61,6 +62,7 @@ function PlaybackProvider({ children }: { children: ReactNode }) {
     playing: false,
     trackTime: 0,
     playheadTime: 0,
+    looping: false,
   });
   const playbackManager = React.useRef(new PlaybackManager());
 

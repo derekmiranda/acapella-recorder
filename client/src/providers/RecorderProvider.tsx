@@ -18,7 +18,6 @@ export interface RecorderState {
   isRecording: boolean;
   initializingRecord: boolean;
   tracks: Track[];
-  shouldLoop: boolean;
   playWhileRecording: boolean;
 }
 
@@ -116,7 +115,6 @@ function RecorderProvider({ children }: { children: ReactNode }) {
         volume: 1,
       },
     ],
-    shouldLoop: true,
     playWhileRecording: true,
   });
   const reducerRef = React.useRef(new LoopRecorder());
