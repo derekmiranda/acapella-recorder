@@ -10,3 +10,15 @@ export function combineReducers(
     return state;
   };
 }
+
+export function createIdGetter(): () => number {
+  let id = -1;
+  return function getNewId() {
+    if (id < Number.MAX_SAFE_INTEGER) {
+      id += 1;
+    } else {
+      id = 0;
+    }
+    return id;
+  };
+}

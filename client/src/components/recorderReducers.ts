@@ -1,10 +1,12 @@
-import { combineReducers } from "../lib/utils";
+import { combineReducers, createIdGetter } from "../lib/utils";
 import {
   RecorderState,
   RecorderAction,
   RecorderActionType,
   TrackAction,
 } from "../providers/RecorderProvider";
+
+const getNewId = createIdGetter();
 
 function recordingReducer(
   state: RecorderState,
@@ -96,13 +98,3 @@ export const rootRecoderReducer = combineReducers([
   recordingReducer,
   tracksReducer,
 ]);
-
-let id = -1;
-function getNewId() {
-  if (id < Number.MAX_SAFE_INTEGER) {
-    id += 1;
-  } else {
-    id = 0;
-  }
-  return id;
-}
