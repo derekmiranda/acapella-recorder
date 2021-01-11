@@ -31,7 +31,7 @@ function App() {
   const recorderDispatch = useRecorderDispatch();
   const recorder = useRecorder();
 
-  const { playing } = usePlaybackState();
+  const { playing, looping } = usePlaybackState();
   const playbackDispatch = usePlaybackDispatch();
   const playbackManager = usePlaybackManager();
 
@@ -106,6 +106,12 @@ function App() {
     });
   };
 
+  const onToggleLooping = () => {
+    playbackDispatch({
+      type: PlaybackActionType.toggleLooping,
+    });
+  };
+
   let recordBtnText = "Record",
     recordBtnClass = "record__btn";
 
@@ -130,7 +136,7 @@ function App() {
               {recordBtnText}
             </button>
             <span className="record__description">Record a first track!</span>
-            <div className="record__option-container">
+            <div className="option-container">
               <input
                 type="checkbox"
                 id="metronome__toggle"
@@ -158,7 +164,7 @@ function App() {
                 {testingMetronome ? "Stop Test" : "Test"}
               </button>
             </div>
-            <div className="record__option-container">
+            <div className="option-container">
               <input
                 type="checkbox"
                 id="record__toggle-record-playback"
@@ -180,6 +186,16 @@ function App() {
             <button onClick={playing ? onPause : onPlay}>
               {playing ? "Pause All" : "Play All"}
             </button>
+            <div className="option-container">
+              <input
+                type="checkbox"
+                id="playback__toggle-looping"
+                className="playback__toggle-looping"
+                checked={looping}
+                onChange={onToggleLooping}
+              ></input>
+              <label htmlFor="playback__toggle-looping"> Loop Project</label>
+            </div>
           </div>
           <Tracklist tracks={tracks} />
         </>

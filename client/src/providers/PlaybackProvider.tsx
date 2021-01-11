@@ -22,6 +22,7 @@ export enum PlaybackActionType {
   play,
   pause,
   stop,
+  toggleLooping,
 }
 
 export interface PlaybackAction {
@@ -50,6 +51,12 @@ function rootReducer(
         ...state,
         playing: false,
         trackTime: state.playheadTime,
+      };
+    }
+    case PlaybackActionType.toggleLooping: {
+      return {
+        ...state,
+        looping: !state.looping,
       };
     }
   }
