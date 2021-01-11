@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { ChangeEvent, useEffect } from "react";
 import {
   PlaybackActionType,
   usePlaybackDispatch,
@@ -12,6 +12,7 @@ import {
   useRecorderDispatch,
   useRecorderState,
   useRecorder,
+  SettingsAction,
 } from "../providers/RecorderProvider";
 import Metronome from "./Metronome";
 import Tracklist from "./Tracklist";
@@ -23,6 +24,9 @@ function App() {
     initializingRecord,
     tracks,
     playWhileRecording,
+    useMetronome,
+    metronomeTempo: tempo,
+    testingMetronome,
   } = useRecorderState();
   const recorderDispatch = useRecorderDispatch();
   const recorder = useRecorder();
@@ -43,10 +47,12 @@ function App() {
     }
   }, [playing, playbackManager]);
 
+  // recording handlers
   const onStartRecord = () => {
     startRecording({
       recorderDispatch,
       playbackDispatch,
+      testingMetronome,
       recorder,
       playWhileRecording,
     });
@@ -61,6 +67,27 @@ function App() {
     }
   };
 
+  // settings handlers
+  const onMetronomeToggle = () => {
+    recorderDispatch({
+      type: RecorderActionType.toggleMetronome,
+    });
+  };
+
+  const onMetronomeTempoUpdate = (tempo: number) => {
+    recorderDispatch({
+      type: RecorderActionType.updateMetronomeTempo,
+      metronomeTempo: tempo,
+    } as SettingsAction);
+  };
+
+  const onTestMetronome = () => {
+    recorderDispatch({
+      type: RecorderActionType.toggleTestingMetronome,
+    });
+  };
+
+  // playback handlers
   const onPlay = () => {
     playbackDispatch({
       type: PlaybackActionType.play,
@@ -97,9 +124,40 @@ function App() {
               {recordBtnText}
             </button>
             <span className="record__description">Record a first track!</span>
+            <div className="record__option-container">
+              <input
+                type="checkbox"
+                id="metronome__toggle"
+                checked={useMetronome}
+                onChange={onMetronomeToggle}
+              />
+              <label htmlFor="metronome__toggle">Use metronome?</label>
+              <input
+                id="metronome__tempo-input"
+                className="metronome__tempo-input"
+                value={tempo}
+                onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                  let tempo = parseInt(event.target.value);
+                  onMetronomeTempoUpdate(tempo);
+                }}
+              ></input>
+              <label
+                htmlFor="metronome__tempo-input"
+                className="metronome__tempo-input-label"
+              >
+                {" "}
+                bpm
+              </label>
+              <button onClick={onTestMetronome}>
+                {testingMetronome ? "Stop Test" : "Test"}
+              </button>
+            </div>
+            <Metronome
+              active={(isRecording || testingMetronome) && useMetronome}
+              tempo={tempo}
+            />
           </div>
           <div className="playback">
-            <Metronome active={false} tempo={120} />
             <button onClick={playing ? onPause : onPlay}>
               {playing ? "Pause All" : "Play All"}
             </button>

@@ -2,6 +2,7 @@ import { combineReducers, createIdGetter } from "../lib/utils";
 import {
   RecorderState,
   RecorderAction,
+  SettingsAction,
   RecorderActionType,
   TrackAction,
 } from "../providers/RecorderProvider";
@@ -94,7 +95,41 @@ function tracksReducer(
   return state;
 }
 
+function settingsReducer(
+  state: RecorderState,
+  action: SettingsAction
+): RecorderState {
+  switch (action.type) {
+    case RecorderActionType.toggleMetronome: {
+      return {
+        ...state,
+        useMetronome: !state.useMetronome,
+      };
+    }
+    case RecorderActionType.toggleTestingMetronome: {
+      return {
+        ...state,
+        testingMetronome: !state.testingMetronome,
+      };
+    }
+    case RecorderActionType.togglePlayWhileRecording: {
+      return {
+        ...state,
+        testingMetronome: !state.playWhileRecording,
+      };
+    }
+    case RecorderActionType.updateMetronomeTempo: {
+      return {
+        ...state,
+        metronomeTempo: action.metronomeTempo as number,
+      };
+    }
+  }
+  return state;
+}
+
 export const rootRecoderReducer = combineReducers([
   recordingReducer,
   tracksReducer,
+  settingsReducer,
 ]);

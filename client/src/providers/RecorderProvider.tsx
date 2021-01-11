@@ -19,6 +19,9 @@ export interface RecorderState {
   initializingRecord: boolean;
   tracks: Track[];
   playWhileRecording: boolean;
+  useMetronome: boolean;
+  metronomeTempo: number;
+  testingMetronome: boolean;
 }
 
 export interface Track {
@@ -36,6 +39,10 @@ export enum RecorderActionType {
   initializingRecord,
   doneInitializingRecord,
   recordingUnavailable,
+  toggleMetronome,
+  updateMetronomeTempo,
+  togglePlayWhileRecording,
+  toggleTestingMetronome,
   // tracks
   addTrack,
   removeTrack,
@@ -49,6 +56,11 @@ export interface TrackAction extends RecorderAction {
   id?: number;
 }
 
+export interface SettingsAction extends RecorderAction {
+  type: RecorderActionType;
+  metronomeTempo?: number;
+}
+
 export interface RecorderAction {
   type: RecorderActionType;
 }
@@ -56,11 +68,13 @@ export interface RecorderAction {
 async function startRecording({
   recorderDispatch,
   playbackDispatch,
+  testingMetronome,
   playWhileRecording,
   recorder,
 }: {
   recorderDispatch: Dispatch<RecorderAction>;
   playbackDispatch: Dispatch<PlaybackAction>;
+  testingMetronome: boolean;
   playWhileRecording: boolean;
   recorder: LoopRecorder;
 }) {
@@ -69,6 +83,9 @@ async function startRecording({
     await recorder.startRecording();
     recorderDispatch({ type: RecorderActionType.doneInitializingRecord });
     recorderDispatch({ type: RecorderActionType.startRecording });
+    if (testingMetronome) {
+      recorderDispatch({ type: RecorderActionType.toggleTestingMetronome });
+    }
     if (playWhileRecording) {
       playbackDispatch({ type: PlaybackActionType.play });
     }
@@ -115,7 +132,10 @@ function RecorderProvider({ children }: { children: ReactNode }) {
         volume: 1,
       },
     ],
-    playWhileRecording: true,
+    playWhileRecording: false,
+    useMetronome: true,
+    metronomeTempo: 120,
+    testingMetronome: false,
   });
   const reducerRef = React.useRef(new LoopRecorder());
 
@@ -155,6 +175,7 @@ function useRecorder() {
   }
   return context;
 }
+
 export {
   RecorderProvider,
   useRecorderState,

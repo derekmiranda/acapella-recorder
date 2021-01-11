@@ -28,6 +28,16 @@
   }
 }
 
+.metronome {
+  &__tempo-input {
+    background-color: rgba(0, 0, 0, 0);
+    width: 2rem;
+    border: 0;
+    border-bottom: 1px solid $text;
+    text-align: center;
+  }
+}
+
 .playback {
   background-color: $sec;
   padding: $base-text-margin;

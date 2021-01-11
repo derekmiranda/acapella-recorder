@@ -5,6 +5,11 @@ export interface MetronomeProps {
   tempo: number;
 }
 
+function play(audioEl: HTMLAudioElement) {
+  audioEl.currentTime = 0;
+  audioEl.play();
+}
+
 function Metronome({ active, tempo }: MetronomeProps) {
   const audioRef: RefObject<HTMLAudioElement> = useRef(null);
 
@@ -12,10 +17,10 @@ function Metronome({ active, tempo }: MetronomeProps) {
     let intervalId: number;
     if (active && audioRef.current) {
       const audioEl = audioRef.current;
+      play(audioEl);
       intervalId = window.setInterval(() => {
-        audioEl.currentTime = 0;
-        audioEl.play();
-      }, 1000 / (tempo / 60)); // 120 bpm = 2 bps =
+        play(audioEl);
+      }, 1000 / (tempo / 60));
     }
 
     return () => {
