@@ -115,9 +115,7 @@ function App() {
   let recordBtnText = "Record",
     recordBtnClass = "record__btn";
 
-  if (initializingRecord) {
-    recordBtnText = "Initializing...";
-  } else if (isRecording) {
+  if (isRecording) {
     recordBtnText = "Stop";
     recordBtnClass = "record__btn record__btn--recording";
   }
@@ -135,7 +133,9 @@ function App() {
             >
               {recordBtnText}
             </button>
-            <span className="record__description">Record a first track!</span>
+            <span className="record__description">
+              {tracks.length ? "Add new tracks!" : "Record a first track!"}
+            </span>
             <div className="option-container">
               <input
                 type="checkbox"
