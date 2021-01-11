@@ -21,6 +21,7 @@ function App() {
     isRecording,
     initializingRecord,
     tracks,
+    playWhileRecording,
   } = useRecorderState();
   const recorderDispatch = useRecorderDispatch();
   const recorder = useRecorder();
@@ -42,11 +43,21 @@ function App() {
   }, [playing, playbackManager]);
 
   const onStartRecord = () => {
-    startRecording(recorderDispatch, recorder);
+    startRecording({
+      recorderDispatch,
+      playbackDispatch,
+      recorder,
+      playWhileRecording,
+    });
   };
 
   const onStopRecord = () => {
     stopRecording(recorderDispatch, recorder);
+    if (playWhileRecording) {
+      playbackDispatch({
+        type: PlaybackActionType.stop,
+      });
+    }
   };
 
   const onPlay = () => {

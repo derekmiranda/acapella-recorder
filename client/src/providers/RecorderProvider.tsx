@@ -1,6 +1,7 @@
 import React, { Dispatch, ReactNode, Reducer } from "react";
 import LoopRecorder from "../lib/LoopRecorder";
 import { rootRecoderReducer } from "../components/recorderReducers";
+import { PlaybackAction, PlaybackActionType } from "./PlaybackProvider";
 
 const RecorderStateContext = React.createContext<RecorderState | undefined>(
   undefined
@@ -18,6 +19,7 @@ export interface RecorderState {
   initializingRecord: boolean;
   tracks: Track[];
   shouldLoop: boolean;
+  playWhileRecording: boolean;
 }
 
 export interface Track {
@@ -52,15 +54,25 @@ export interface RecorderAction {
   type: RecorderActionType;
 }
 
-async function startRecording(
-  dispatch: Dispatch<RecorderAction>,
-  recorder: LoopRecorder
-) {
-  dispatch({ type: RecorderActionType.initializingRecord });
+async function startRecording({
+  recorderDispatch,
+  playbackDispatch,
+  playWhileRecording,
+  recorder,
+}: {
+  recorderDispatch: Dispatch<RecorderAction>;
+  playbackDispatch: Dispatch<PlaybackAction>;
+  playWhileRecording: boolean;
+  recorder: LoopRecorder;
+}) {
+  recorderDispatch({ type: RecorderActionType.initializingRecord });
   try {
     await recorder.startRecording();
-    dispatch({ type: RecorderActionType.doneInitializingRecord });
-    dispatch({ type: RecorderActionType.startRecording });
+    recorderDispatch({ type: RecorderActionType.doneInitializingRecord });
+    recorderDispatch({ type: RecorderActionType.startRecording });
+    if (playWhileRecording) {
+      playbackDispatch({ type: PlaybackActionType.play });
+    }
   } catch (error) {
     console.error("Error starting recording");
     throw error;
@@ -99,12 +111,13 @@ function RecorderProvider({ children }: { children: ReactNode }) {
       {
         name: "Sample 2",
         url: "./assets/sample-2.m4a",
-        id: 99,
+        id: 999,
         active: true,
         volume: 1,
       },
     ],
     shouldLoop: true,
+    playWhileRecording: true,
   });
   const reducerRef = React.useRef(new LoopRecorder());
 
