@@ -24,6 +24,7 @@ function Trackbar({ track }: TrackProps) {
   };
 
   useEffect(() => {
+    let id: number;
     if (audioRef.current) {
       const audioEl = audioRef.current;
 
@@ -32,8 +33,14 @@ function Trackbar({ track }: TrackProps) {
       };
       audioEl.addEventListener("ended", onEnded);
 
-      playbackManager.addAudio(audioEl);
+      id = playbackManager.addAudio(audioEl);
     }
+
+    return () => {
+      if (id) {
+        playbackManager.remove(id);
+      }
+    };
   }, [playbackManager]);
 
   useEffect(() => {
