@@ -37,7 +37,7 @@ function Trackbar({ track }: TrackProps) {
     }
 
     return () => {
-      if (id) {
+      if (id !== undefined) {
         playbackManager.remove(id);
       }
     };
