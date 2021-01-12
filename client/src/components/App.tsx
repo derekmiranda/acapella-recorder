@@ -150,6 +150,7 @@ function App() {
                 value={tempo}
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {
                   let tempo = parseInt(event.target.value);
+                  if (!tempo) tempo = 0;
                   onMetronomeTempoUpdate(tempo);
                 }}
               ></input>
