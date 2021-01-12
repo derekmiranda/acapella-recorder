@@ -1,37 +1,48 @@
 import { RefObject, useEffect, useRef } from "react";
-import { setInterval } from "../lib/utils";
 
 export interface MetronomeProps {
   active: boolean;
   tempo: number;
 }
 
-function play(audioEl: HTMLAudioElement) {
+function play(
+  audioEl: HTMLAudioElement,
+  state: {
+    tempo: number;
+    shouldPlay: boolean;
+  }
+): Promise<void> {
   audioEl.currentTime = 0;
-  audioEl.play();
+  if (state.shouldPlay) {
+    audioEl.play().then(() => {
+      setTimeout(() => {
+        play(audioEl, state);
+      }, (60 * 1000) / state.tempo);
+    });
+  }
+  return Promise.resolve();
 }
 
 function Metronome({ active, tempo }: MetronomeProps) {
   const audioRef: RefObject<HTMLAudioElement> = useRef(null);
 
   useEffect(() => {
-    let intervalId: number;
-    if (active && audioRef.current) {
+    const intervalState = {
+      tempo,
+      shouldPlay: true,
+    };
+
+    if (tempo && active && audioRef.current) {
       const audioEl = audioRef.current;
-      play(audioEl);
-      intervalId = setInterval(() => {
-        play(audioEl);
-      }, 1000 / (tempo / 60));
+      play(audioEl, intervalState);
     }
 
     return () => {
-      if (intervalId !== undefined) {
-        clearInterval(intervalId);
-      }
+      intervalState.shouldPlay = false;
     };
   }, [active, tempo]);
 
-  return <audio ref={audioRef} src="./assets/metronome.wav" />;
+  return <audio ref={audioRef} src="./assets/metronome.wav" preload="auto" />;
 }
 
 export default Metronome;
