@@ -120,6 +120,9 @@ function App() {
     recordBtnClass = "record__btn record__btn--recording";
   }
 
+  const metronomeOn =
+    testingMetronome || (tempo && isRecording && useMetronome);
+
   return (
     <div className="app">
       <h1 className="app__header">Acapella Recorder</h1>
@@ -178,10 +181,7 @@ function App() {
                 Enable playback while recording
               </label>
             </div>
-            <Metronome
-              active={testingMetronome || (isRecording && useMetronome)}
-              tempo={tempo}
-            />
+            {metronomeOn && <Metronome tempo={tempo} />}
           </div>
           <div className="playback">
             <button onClick={playing ? onPause : onPlay}>
